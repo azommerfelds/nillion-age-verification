@@ -27,3 +27,7 @@
 - [Nillion user key snap UI](https://nillion-snap-site.vercel.app/)
 - [nada tool for creating & managing nada projects](https://docs.nillion.com/nada)
 - [Nada data types](https://docs.nillion.com/nada-lang-types)
+
+## Contact
+
+- azommerfelds@gmail.com
