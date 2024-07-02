@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import CodeSnippet from "~~/components/nillion/CodeSnippet";
 import { CopyString } from "~~/components/nillion/CopyString";
 import { NillionOnboarding } from "~~/components/nillion/NillionOnboarding";
@@ -29,13 +30,13 @@ const Home: NextPage = () => {
   const [nillionClient, setNillionClient] = useState<any>(null);
 
   // const [programName] = useState<string>("addition_simple");
-  const [programName] = useState<string>("tiny_secret_addition"); // HERE
+  const [programName] = useState<string>("age_verification"); // HERE
   const [programId, setProgramId] = useState<string | null>(null);
   const [computeResult, setComputeResult] = useState<string | null>(null);
 
   const [storedSecretsNameToStoreId, setStoredSecretsNameToStoreId] = useState<StringObject>({
-    secret_int1: null,
-    secret_int2: null,
+    secret_age1: null,
+    secret_age2: null,
   });
   const [parties] = useState<string[]>(["Party1"]);
   const [outputs] = useState<string[]>(["secret_result"]);
@@ -137,7 +138,36 @@ const Home: NextPage = () => {
       <div className="flex items-center flex-col pt-10">
         <div className="px-5 flex flex-col">
           <h1 className="text-xl">
-            <span className="block text-4xl font-bold">Demo: Explore Blind Computation on Nillion</span>
+            <span className="block text-4xl font-bold mb-8">Demo: Age Verification on Nillion</span>
+            <div className="flex flex-col bg-base-100 px-5 py-5 text-left items-left max-w-m rounded-3xl">
+              {/* <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" /> */}
+              <p>How this app works:</p>
+              <ol className="block my-1">
+                <li>
+                  - An individual wants to prove she/he is of legal age (defined as 18+ years) without revealing the
+                  age. The age is provided as a secret using Nillion.
+                </li>
+                <li>- A trusted party (e.g. government body) also provides the secret age using Nillion.</li>
+                <li>
+                  - A Nillion computation is done, whereby it results in a random positive integer if the individual is
+                  of legal age, and a negative random integer if not.
+                </li>
+                <li>
+                  - If at least one of them provides an age lower than 18, the whole verification will give a negative
+                  response (see code below for details). Thus, the verification fails if there is any disagreement on
+                  whether the individual is of legal age, implying that at least one party is lying.
+                </li>
+                <li>
+                  - Finally, the frontend app takes the random input and displays the result based on whether it was
+                  positive (= of legal age) or negative (less than 18y old).
+                </li>
+              </ol>
+              <p>Limitations:</p>
+              <ol className="block my-1">
+                <li>- The app currently only works with one Nillion Party.</li>
+                <li>- The app makes use of python&apos;s random library</li>
+              </ol>
+            </div>
             {!connectedAddress && <p>Connect your MetaMask Flask wallet</p>}
             {connectedAddress && connectedToSnap && !userKey && (
               <a target="_blank" href="https://nillion-snap-site.vercel.app/" rel="noopener noreferrer">
@@ -196,7 +226,7 @@ const Home: NextPage = () => {
             ) : (
               <div>
                 <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-m rounded-3xl my-2">
-                  <h1 className="text-xl">Step 1: Store a Nada program</h1>
+                  <h1 className="text-xl">Step 1: Store the Nada program</h1>
                   {!programId ? (
                     <button className="btn btn-sm btn-primary mt-4" onClick={handleStoreProgram}>
                       Store {programName} program
@@ -233,7 +263,7 @@ const Home: NextPage = () => {
                               className="btn btn-sm btn-primary mt-4"
                               onClick={() => handleRetrieveInt(key, storedSecretsNameToStoreId[key])}
                             >
-                              👀 Retrieve SecretInteger
+                              👀 Retrieve secret age
                             </button>
                           </>
                         ) : (
@@ -251,7 +281,7 @@ const Home: NextPage = () => {
 
                 <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center w-full rounded-3xl my-2 justify-between">
                   <h1 className="text-xl">
-                    Step 3: Perform blind computation with stored secrets in the {programName} program
+                    Step 3: Perform blind computation with stored secret age in the {programName} program
                   </h1>
                   {!computeResult && (
                     <button
@@ -262,7 +292,13 @@ const Home: NextPage = () => {
                       Compute on {programName}
                     </button>
                   )}
-                  {computeResult && <p>✅ Compute result: {computeResult}</p>}
+                  {computeResult && (
+                    <p>
+                      {Number(computeResult) > 0
+                        ? "✅ Person is at least 18 years old!"
+                        : "❌ The person seems to be less than 18 years old!"}
+                    </p>
+                  )}
                 </div>
               </div>
             )}

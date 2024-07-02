@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export const NillionOnboarding = () => {
   return (
-    <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-m rounded-3xl">
+    <div className="flex flex-col bg-base-100 px-10 py-10 text-left items-left max-w-m rounded-3xl">
       <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
       <p>To connect with your Nillion user key...</p>
       <ol className="block my-4">

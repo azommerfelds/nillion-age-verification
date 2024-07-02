@@ -1,5 +1,5 @@
 import { nillionConfig } from "./nillionConfig";
-import * as nillion from "@nillion/nillion-client-js-browser/nillion_client_js_browser.js";
+import * as nillion from "@nillion/nillion-client-js-browser";
 
 interface SmartContractAddresses {
   blinding_factors_manager: string;

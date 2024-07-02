@@ -11,3 +11,13 @@ prime_size = 128
 path = "src/addition_simple.py"
 name = "addition_simple"
 prime_size = 128
+
+[[programs]]
+path = "src/tiny_secret_addition.py"
+name = "tiny_secret_addition"
+prime_size = 128
+
+[[programs]]
+path = "src/age_verification.py"
+name = "age_verification"
+prime_size = 128
